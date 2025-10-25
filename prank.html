@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>هشدار امنیتی!</title>
+    <style>
+        body {
+            background-color: black;
+            color: green;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 2em;
+            margin: 20px;
+            text-shadow: 0 0 10px green;
+        }
+        #message {
+            font-size: 1.5em;
+            margin: 20px;
+        }
+        #timer {
+            font-size: 1.2em;
+            color: red;
+        }
+        #random-code {
+            font-size: 1em;
+            color: white;
+            margin: 20px;
+        }
+        button {
+            display: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: darkred;
+        }
+        @keyframes blink {
+            50% { color: red; }
+        }
+        .blink {
+            animation: blink 0.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="blink">🚨 اخطار: گوشی شما هک شد! 🚨</h1>
+    <div id="message"></div>
+    <div id="random-code"></div>
+    <div id="timer"></div>
+    <button id="exit-btn" onclick="endPrank()">فرار کن سالار!</button>
+
+    <script>
+        const messages = [
+            "فایل‌هات دارن پاک می‌شن... 😱",
+            "هکر سالار کنترلو گرفت! 😎",
+            "دیتات داره آپلود می‌شه...",
+            "رمز عبورت چیه؟ 1234؟ 😅",
+            "شوخی کردم! فقط یه بازیه! 😜"
+        ];
+
+        function getRandomString(length) {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
+            return Array.from({length}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+        }
+
+        let countdown = 30;
+        const messageDiv = document.getElementById('message');
+        const timerDiv = document.getElementById('timer');
+        const randomCodeDiv = document.getElementById('random-code');
+        const exitButton = document.getElementById('exit-btn');
+
+        function updateMessage() {
+            messageDiv.textContent = messages[Math.floor(Math.random() * messages.length)];
+            randomCodeDiv.textContent = getRandomString(30);
+            if (countdown > 0) {
+                setTimeout(updateMessage, 1500);
+            }
+        }
+
+        function updateTimer() {
+            if (countdown > 0) {
+                timerDiv.textContent = `زمان تا قفل گوشی: ${countdown} ثانیه`;
+                countdown--;
+                setTimeout(updateTimer, 1000);
+            } else {
+                timerDiv.textContent = '';
+                messageDiv.textContent = 'ههه، ترسیدی؟ فقط یه شوخی بود سالار! 😄';
+                randomCodeDiv.textContent = '';
+                exitButton.style.display = 'block';
+            }
+        }
+
+        function endPrank() {
+            alert('ههه، فقط یه شوخی بود! 😎');
+            window.close();
+        }
+
+        updateMessage();
+        updateTimer();
+
+        const audio = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3');
+        audio.play().catch(() => {});
+    </script>
+</body>
+</html>
